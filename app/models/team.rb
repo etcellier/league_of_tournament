@@ -10,7 +10,7 @@ class Team < ApplicationRecord
   end
   
   def ready_for_match?
-    players.count = 5
+    players.count == 5
   end
   
   def full?

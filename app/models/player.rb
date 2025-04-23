@@ -3,7 +3,7 @@ class Player < ApplicationRecord
   
   ROLES = ['Toplaner', 'Jungler', 'Midlaner', 'ADC', 'Support']
   
-  validates :first_name, :last_name, presence: true
+  validates :username, presence: true
   validates :role, presence: true, inclusion: { in: ROLES }
   validate :team_not_full, on: :create
   

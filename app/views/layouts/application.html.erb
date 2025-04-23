@@ -1,30 +1,57 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "League Of Tournament" %></title>
+    <title>League of Tournament</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-gray-100 min-h-screen">
+    <header class="bg-blue-600 text-white shadow-md">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+          <div>
+            <%= link_to "League of Tournament", root_path, class: "text-2xl font-bold" %>
+          </div>
+          <nav>
+            <ul class="flex space-x-6">
+              <li><%= link_to "Accueil", root_path, class: "hover:text-blue-200" %></li>
+              <li><%= link_to "Équipes", teams_path, class: "hover:text-blue-200" %></li>
+              <li><%= link_to "Joueurs", players_path, class: "hover:text-blue-200" %></li>
+              <li><%= link_to "Matchs", matches_path, class: "hover:text-blue-200" %></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-6">
+      <% if notice %>
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+          <p><%= notice %></p>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+          <p><%= alert %></p>
+        </div>
+      <% end %>
+
       <%= yield %>
     </main>
+
+    <footer class="bg-gray-800 text-white py-6 mt-auto">
+      <div class="container mx-auto px-4">
+        <div class="text-center">
+          <p>&copy; <%= Date.today.year %> League of Tournament - Tous droits réservés</p>
+        </div>
+      </div>
+    </footer>
   </body>
-</html>
+</html> 
