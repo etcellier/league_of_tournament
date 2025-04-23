@@ -1,4 +1,88 @@
-<div>
-  <h1 class="font-bold text-4xl">Matches#index</h1>
-  <p>Find me in app/views/matches/index.html.erb</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Matchs</h1>
+    <%= link_to "Nouveau match", new_match_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+
+  <div class="bg-white rounded-lg shadow mb-10">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-xl font-bold text-gray-800">Matchs à venir</h2>
+    </div>
+    <div class="p-6">
+      <% upcoming_matches = @matches.where('date > ?', DateTime.now).order(date: :asc) %>
+      <% if upcoming_matches.any? %>
+        <div class="space-y-4">
+          <% upcoming_matches.each do |match| %>
+            <div class="border rounded-lg p-4 hover:bg-gray-50">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                  <span class="font-semibold"><%= match.team1.name %></span>
+                  <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-lg text-sm">VS</span>
+                  <span class="font-semibold"><%= match.team2.name %></span>
+                </div>
+                <div class="text-sm">
+                  <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                    <%= match.date.strftime("%d/%m/%Y %H:%M") %>
+                  </span>
+                </div>
+              </div>
+              <div class="mt-2 flex justify-end">
+                <%= link_to "Détails", match_path(match), class: "text-sm text-blue-600 hover:text-blue-800 mr-2" %>
+                <%= link_to "Modifier", edit_match_path(match), class: "text-sm text-gray-600 hover:text-gray-800 mr-2" %>
+                <%= button_to "Supprimer", match_path(match), method: :delete, data: { confirm: "Êtes-vous sûr?" }, class: "text-sm text-red-600 hover:text-red-800", form: { class: "inline" } %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-500 italic">Aucun match à venir</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-xl font-bold text-gray-800">Matchs passés</h2>
+    </div>
+    <div class="p-6">
+      <% past_matches = @matches.where('date <= ?', DateTime.now).order(date: :desc) %>
+      <% if past_matches.any? %>
+        <div class="space-y-4">
+          <% past_matches.each do |match| %>
+            <div class="border rounded-lg p-4 hover:bg-gray-50">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                  <span class="font-semibold <%= match.score_team1 && match.score_team2 && match.score_team1 > match.score_team2 ? 'text-green-600 font-bold' : '' %>">
+                    <%= match.team1.name %>
+                  </span>
+                  <% if match.score_team1.present? && match.score_team2.present? %>
+                    <span class="px-3 py-1 bg-gray-200 rounded-lg font-bold">
+                      <%= match.score_team1 %> - <%= match.score_team2 %>
+                    </span>
+                  <% else %>
+                    <span class="px-3 py-1 bg-red-100 text-red-800 rounded-lg text-sm">
+                      Pas de résultat
+                    </span>
+                  <% end %>
+                  <span class="font-semibold <%= match.score_team1 && match.score_team2 && match.score_team1 < match.score_team2 ? 'text-green-600 font-bold' : '' %>">
+                    <%= match.team2.name %>
+                  </span>
+                </div>
+                <div class="text-sm text-gray-500">
+                  <%= match.date.strftime("%d/%m/%Y %H:%M") %>
+                </div>
+              </div>
+              <div class="mt-2 flex justify-end">
+                <%= link_to "Détails", match_path(match), class: "text-sm text-blue-600 hover:text-blue-800 mr-2" %>
+                <%= link_to "Modifier", edit_match_path(match), class: "text-sm text-gray-600 hover:text-gray-800 mr-2" %>
+                <%= button_to "Supprimer", match_path(match), method: :delete, data: { confirm: "Êtes-vous sûr?" }, class: "text-sm text-red-600 hover:text-red-800", form: { class: "inline" } %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-gray-500 italic">Aucun match passé</p>
+      <% end %>
+    </div>
+  </div>
 </div>

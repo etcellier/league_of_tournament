@@ -1,0 +1,51 @@
+<%= form_with(model: match, class: "space-y-6") do |form| %>
+  <% if match.errors.any? %>
+    <div class="bg-red-50 p-4 rounded-md mb-6">
+      <h2 class="text-lg font-medium text-red-800 mb-1">
+        <%= pluralize(match.errors.count, "erreur") %> empêche(nt) l'enregistrement de ce match :
+      </h2>
+      <ul class="list-disc pl-5 text-red-700">
+        <% match.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :date, "Date et heure", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.datetime_local_field :date, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= form.label :team1_id, "Équipe 1", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.collection_select :team1_id, Team.all, :id, :name, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+
+    <div>
+      <%= form.label :team2_id, "Équipe 2", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.collection_select :team2_id, Team.all, :id, :name, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+  </div>
+
+  <div class="border-t border-gray-200 pt-4 mt-4">
+    <h3 class="text-lg font-medium text-gray-800 mb-3">Résultat (optionnel)</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= form.label :score_team1, "Score équipe 1", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.number_field :score_team1, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+      </div>
+
+      <div>
+        <%= form.label :score_team2, "Score équipe 2", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.number_field :score_team2, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between pt-4">
+    <%= form.submit class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    <%= link_to "Annuler", matches_path, class: "text-gray-600 hover:text-gray-800" %>
+  </div>
+<% end %>

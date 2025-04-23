@@ -1,4 +1,97 @@
-<div>
-  <h1 class="font-bold text-4xl">Teams#show</h1>
-  <p>Find me in app/views/teams/show.html.erb</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-white"><%= @team.name %></h1>
+        <div class="space-x-2">
+          <%= link_to "Modifier", edit_team_path(@team), class: "bg-white text-blue-700 hover:bg-blue-50 px-3 py-1 rounded text-sm font-medium" %>
+          <%= link_to "Retour", teams_path, class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm font-medium" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-6">
+      <!-- Joueurs -->
+      <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-gray-800">Joueurs (<%= @team.players.count %>/5)</h2>
+          <% if @team.players.count < 5 %>
+            <%= link_to "Ajouter un joueur", new_team_player_path(@team), class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm font-medium" %>
+          <% else %>
+            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded text-sm">Équipe complète</span>
+          <% end %>
+        </div>
+
+        <% if @team.players.any? %>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th class="px-4 py-2 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Pseudo</th>
+                  <th class="px-4 py-2 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Rôle</th>
+                  <th class="px-4 py-2 text-right text-sm font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <% @team.players.each do |player| %>
+                  <tr>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900"><%= player.username %></td>
+                    <td class="px-4 py-3 text-sm text-gray-500"><%= player.role %></td>
+                    <td class="px-4 py-3 text-right text-sm font-medium">
+                      <%= link_to "Voir", player_path(player), class: "text-blue-600 hover:text-blue-800 mr-2" %>
+                      <%= link_to "Modifier", edit_player_path(player), class: "text-gray-600 hover:text-gray-800 mr-2" %>
+                      <%= button_to "Supprimer", player_path(player), method: :delete, data: { confirm: "Êtes-vous sûr?" }, class: "text-red-600 hover:text-red-800", form: { class: "inline" } %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <p class="text-gray-500 italic">Aucun joueur dans cette équipe</p>
+        <% end %>
+      </div>
+
+      <!-- Matchs -->
+      <div>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Matchs</h2>
+        <% team_matches = @team.matches.order(date: :desc) %>
+        <% if team_matches.any? %>
+          <div class="space-y-4">
+            <% team_matches.each do |match| %>
+              <div class="border rounded-lg p-4 hover:bg-gray-50">
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center space-x-3">
+                    <span class="font-semibold <%= match.team1 == @team ? 'text-blue-600' : '' %>">
+                      <%= match.team1.name %>
+                    </span>
+                    <% if match.score_team1.present? && match.score_team2.present? %>
+                      <span class="px-3 py-1 bg-gray-200 rounded-lg font-bold">
+                        <%= match.score_team1 %> - <%= match.score_team2 %>
+                      </span>
+                    <% else %>
+                      <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-lg text-sm">
+                        À venir
+                      </span>
+                    <% end %>
+                    <span class="font-semibold <%= match.team2 == @team ? 'text-blue-600' : '' %>">
+                      <%= match.team2.name %>
+                    </span>
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    <%= match.date.strftime("%d/%m/%Y %H:%M") %>
+                  </div>
+                </div>
+                <div class="mt-2 flex justify-end">
+                  <%= link_to "Détails", match_path(match), class: "text-sm text-blue-600 hover:text-blue-800" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-500 italic">Aucun match programmé pour cette équipe</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,0 +1,34 @@
+<%= form_with(model: player, class: "space-y-6") do |form| %>
+  <% if player.errors.any? %>
+    <div class="bg-red-50 p-4 rounded-md mb-6">
+      <h2 class="text-lg font-medium text-red-800 mb-1">
+        <%= pluralize(player.errors.count, "erreur") %> empêche(nt) l'enregistrement de ce joueur :
+      </h2>
+      <ul class="list-disc pl-5 text-red-700">
+        <% player.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :username, "Pseudo", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :username, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+  </div>
+
+  <div>
+    <%= form.label :role, "Rôle", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.select :role, Player::ROLES, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+  </div>
+
+  <div>
+    <%= form.label :team_id, "Équipe", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.collection_select :team_id, Team.all, :id, :name, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+  </div>
+
+  <div class="flex items-center justify-between pt-4">
+    <%= form.submit class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    <%= link_to "Annuler", players_path, class: "text-gray-600 hover:text-gray-800" %>
+  </div>
+<% end %>
