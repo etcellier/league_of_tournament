@@ -1,8 +1,8 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="bg-white rounded-lg shadow overflow-hidden">
-    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-4">
+    <div class="bg-gray-100 px-6 py-4">
       <div class="flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-white">Détails du match</h1>
+        <h1 class="text-2xl font-bold text-black">Détails du match</h1>
         <div class="space-x-2">
           <%= link_to "Modifier", edit_match_path(@match), class: "bg-white text-blue-700 hover:bg-blue-50 px-3 py-1 rounded text-sm font-medium" %>
           <%= link_to "Retour", matches_path, class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm font-medium" %>
@@ -17,7 +17,18 @@
             <%= @match.date > DateTime.now ? "Match à venir" : "Match joué" %> le <%= @match.date.strftime("%d/%m/%Y à %H:%M") %>
           </div>
           
-          <div class="flex flex-col md:flex-row items-center justify-center md:space-x-8 p-6 bg-gray-50 rounded-lg">
+          <div class="
+            flex flex-col md:flex-row items-center justify-center md:space-x-8 p-6 rounded-lg
+            <% if @match.score_team1.present? && @match.score_team2.present? %>
+              <%= @match.score_team1 > @match.score_team2 ? 
+                'bg-gradient-to-r from-green-500 via-white to-red-500' : 
+                (@match.score_team1 < @match.score_team2 ? 
+                  'bg-gradient-to-l from-green-500 via-white to-red-500' : 
+                  'bg-gray-50') %>
+            <% else %>
+              bg-gray-50
+            <% end %>
+          ">
             <!-- Équipe 1 -->
             <div class="text-center mb-6 md:mb-0">
               <div class="text-xl font-bold mb-2"><%= @match.team1.name %></div>
