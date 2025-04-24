@@ -70,4 +70,14 @@ Match.create!(
   team2: team4
 )
 
+# Créer un utilisateur admin
+User.create!(
+  email: 'admin@example.com',
+  password: 'password123',
+  password_confirmation: 'password123',
+  admin: true
+)
+
+puts "Admin user created: admin@example.com / password123"
+
 puts "Seeds completed successfully!"

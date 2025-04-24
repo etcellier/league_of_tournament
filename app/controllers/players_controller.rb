@@ -1,7 +1,7 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy]
-  before_action :set_teams, only: [:new, :edit, :create, :update]
-
+  before_action :require_admin, except: [:index, :show]
+  
   def index
     @players = Player.all
   end
