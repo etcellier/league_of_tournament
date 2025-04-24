@@ -1,5 +1,6 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: [:show, :edit, :update, :destroy]
+  before_action :set_teams, only: [:new, :edit, :create, :update]
   before_action :require_admin, except: [:index, :show]
   
   def index
@@ -42,6 +43,7 @@ class PlayersController < ApplicationController
 
   private
     def set_player
+      Rails.logger.debug "PARAMS ID: #{params[:id].inspect}"
       @player = Player.find(params[:id])
     end
 
@@ -50,6 +52,6 @@ class PlayersController < ApplicationController
     end
 
     def player_params
-      params.require(:player).permit(:first_name, :last_name, :role, :team_id)
+      params.require(:player).permit(:username, :role, :team_id)
     end
-end 
+end
