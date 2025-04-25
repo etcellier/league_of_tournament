@@ -1,7 +1,9 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold text-gray-900">Équipes</h1>
-    <%= link_to "Nouvelle équipe", new_team_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    <% if admin? %>
+      <%= link_to "Nouvelle équipe", new_team_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    <% end %>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -29,10 +31,12 @@
 
           <div class="flex justify-between mt-4">
             <%= link_to "Voir détails", team_path(team), class: "text-blue-600 hover:text-blue-800" %>
-            <div class="space-x-2">
-              <%= link_to "Modifier", edit_team_path(team), class: "text-gray-600 hover:text-gray-800" %>
-              <%= button_to "Supprimer", team_path(team), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette équipe?" }, class: "text-red-600 hover:text-red-800", form: { class: "inline" } %>
-            </div>
+            <% if admin? %>
+              <div class="space-x-2">
+                <%= link_to "Modifier", edit_team_path(team), class: "text-gray-600 hover:text-gray-800" %>
+                <%= button_to "Supprimer", team_path(team), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette équipe?" }, class: "text-red-600 hover:text-red-800", form: { class: "inline" } %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

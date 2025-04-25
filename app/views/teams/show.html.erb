@@ -4,7 +4,9 @@
       <div class="flex justify-between items-center">
         <h1 class="text-2xl font-bold text-black"><%= @team.name %></h1>
         <div class="space-x-2">
-          <%= link_to "Modifier", edit_team_path(@team), class: "bg-white text-blue-700 hover:bg-blue-50 px-3 py-1 rounded text-sm font-medium" %>
+          <% if admin? %>
+            <%= link_to "Modifier", edit_team_path(@team), class: "bg-white text-blue-700 hover:bg-blue-50 px-3 py-1 rounded text-sm font-medium" %>
+          <% end %>
           <%= link_to "Retour", teams_path, class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm font-medium" %>
         </div>
       </div>
@@ -16,7 +18,9 @@
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-bold text-gray-800">Joueurs (<%= @team.players.count %>/5)</h2>
           <% if @team.players.count < 5 %>
-            <%= link_to "Ajouter un joueur", new_team_player_path(@team), class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm font-medium" %>
+            <% if admin? %>
+              <%= link_to "Ajouter un joueur", new_team_player_path(@team), class: "bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm font-medium" %>
+            <% end %>
           <% else %>
             <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded text-sm">Équipe complète</span>
           <% end %>
@@ -39,8 +43,10 @@
                     <td class="px-4 py-3 text-sm text-gray-500"><%= player.role %></td>
                     <td class="px-4 py-3 text-right text-sm font-medium">
                       <%= link_to "Voir", player_path(player), class: "text-blue-600 hover:text-blue-800 mr-2" %>
-                      <%= link_to "Modifier", edit_player_path(player), class: "text-gray-600 hover:text-gray-800 mr-2" %>
-                      <%= button_to "Supprimer", player_path(player), method: :delete, data: { confirm: "Êtes-vous sûr?" }, class: "text-red-600 hover:text-red-800", form: { class: "inline" } %>
+                      <% if admin? %>
+                        <%= link_to "Modifier", edit_player_path(player), class: "text-gray-600 hover:text-gray-800 mr-2" %>
+                        <%= button_to "Supprimer", player_path(player), method: :delete, data: { confirm: "Êtes-vous sûr?" }, class: "text-red-600 hover:text-red-800", form: { class: "inline" } %>
+                      <% end %>
                     </td>
                   </tr>
                 <% end %>
