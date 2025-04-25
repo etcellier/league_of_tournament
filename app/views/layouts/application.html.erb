@@ -13,11 +13,12 @@
   </head>
 
   <body class="bg-gray-100 min-h-screen">
-    <header class="bg-blue-600 text-white shadow-md">
+    <header class="bg-gray-50 text-black shadow">
       <div class="container mx-auto px-4 py-3">
         <div class="flex justify-between items-center">
           <div>
-            <%= link_to "League of Tournament", root_path, class: "text-2xl font-bold" %>
+          <img src="<%= asset_url('logo.png') %>" alt="Logo couleur League of Tournament">
+          <%= link_to "League of Tournament", root_path, class: "text-2xl font-bold" %>
           </div>
           <nav>
             <ul class="flex space-x-6">
