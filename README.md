@@ -35,7 +35,7 @@ League of Tournament est une application web développée avec Ruby on Rails qui
 
 1. Cloner le dépôt
    ```
-   git clone [url-du-dépôt]
+   git clone https://github.com/etcellier/league_of_tournament.git
    cd league_of_tournament
    ```
 
@@ -84,5 +84,5 @@ Le projet utilise l'architecture MVC (Modèle-Vue-Contrôleur) standard de Rails
 
 ## Auteur
 
-CELLIER Etienne
-MARTINELLI Nicolas
+- CELLIER Etienne
+- MARTINELLI Nicolas
