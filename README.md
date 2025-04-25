@@ -82,14 +82,7 @@ Le projet utilise l'architecture MVC (Modèle-Vue-Contrôleur) standard de Rails
 - Validation des rôles des joueurs
 - Protection des routes d'administration
 
-## Captures d'écran
-
-_[Insérer des captures d'écran de l'application ici]_
-
 ## Auteur
 
-_[Votre nom]_
-
-## Licence
-
-Ce projet est sous licence MIT.
+CELLIER Etienne
+MARTINELLI Nicolas
